@@ -1,17 +1,22 @@
 {
   "name": "sukuna_api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Api for sukuna library website project",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/server.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "apigeon",
   "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.16"
   }
 }
