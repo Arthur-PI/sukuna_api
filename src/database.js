@@ -61,8 +61,8 @@ const fetch_items = () => {
 
 const create_collection = (collection) => {
 	return new Promise((resolve, reject) => {
-		const sql = "INSERT INTO collections (name, summary, author, editor, category) VALUES (?, ?, ?, ?, ?)";
-		con.query(sql, [collection.name, collection.summary, collection.author, collection.editor, collection.category], (err, res) => {
+		const sql = "INSERT INTO collections (name, collection_summary, author, editor, category, collection_cover) VALUES (?, ?, ?, ?, ?, ?)";
+		con.query(sql, [collection.name, collection.summary, collection.author, collection.editor, collection.category, "https://bdi.dlpdomain.com/album/9782505015499-couv-M480x680.jpg"], (err, res) => {
 			if (err) reject(err);
 			collection.id = res.insertId;
 			resolve(collection);
@@ -93,10 +93,18 @@ const create_item = (item) => {
 
 const fetch_collection_by_id = (id) => {
 	return new Promise((resolve, reject) => {
-		const sql = "SELECT * FROM collections c JOIN items i ON c.collection_id = i.collection_id WHERE c.collection_id = ?";
+		let sql = "SELECT * FROM collections WHERE collection_id = ?";
 		con.query(sql, [id], (err, res) => {
 			if (err) return reject(err);
-			resolve(res);
+			if (res.length !== 1)
+				return reject("Error: no collection with this id in the database");
+			res = res[0];
+			sql = "SELECT * FROM items WHERE collection_id = ?";
+			con.query(sql, [res.collection_id], (err2, res2) => {
+				if (err) return reject(err2);
+				res.items = res2;
+				resolve(res);
+			});
 		});
 	});
 };

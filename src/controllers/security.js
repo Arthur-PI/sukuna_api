@@ -11,6 +11,8 @@ const verify_token = (req, res, next) => {
 	try {
 		req.user = jwt.verify(token, TOKEN_KEY);
 		console.log(req.user);
+		if (!req.user.admin)
+			return res.status(401).send("Need administrator credentials to access this route");
 	} catch (err) {
 		return res.status(401).send("Invalid Token");
 	}
@@ -18,7 +20,7 @@ const verify_token = (req, res, next) => {
 }
 
 const create_token = (name, email) => {
-	const is_admin = email === ADMIN_EMAIL;
+	const is_admin = (email === ADMIN_EMAIL);
 	const token = jwt.sign(
 		{email: email, name: name, admin: is_admin},
 		TOKEN_KEY,

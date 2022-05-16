@@ -8,7 +8,7 @@ const login = (req, res) => {
 		return res.status(403).send("Error: login or password props missing");
 	db.check_user(email, password).then((data) => {
 		if (data.valid_passwd) {
-			const token = create_token(data.data.name, login);
+			const token = create_token(data.data.name, email);
 			return res.status(200).json({email: email, name: data.data.name, token: token});
 		} else
 			return res.status(400).send("Error: Connection refused");
