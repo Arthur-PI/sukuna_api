@@ -1,11 +1,9 @@
-const http = require("http");
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
 const routes = require('./routes');
-// import routes
 
 const app = express();
 
